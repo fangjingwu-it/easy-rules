@@ -30,6 +30,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 标记要执行规则操作的方法。规则可以有多个操作。可以使用order属性按指定的顺序执行操作。默认情况下，操作的顺序为0
+ *
  * Annotation to mark a method as a rule action.
  * Must annotate any public method with no arguments.
  * The method return value will be ignored by the engine.

@@ -8,6 +8,7 @@
     </parent>
 
     <artifactId>easy-rules-tutorials</artifactId>
+    <description>使用说明+实例</description>
     <packaging>war</packaging>
 
     <name>Easy Rules tutorials</name>

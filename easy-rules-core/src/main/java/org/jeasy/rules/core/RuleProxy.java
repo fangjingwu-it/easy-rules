@@ -53,6 +53,9 @@ import static java.lang.String.format;
  */
 public class RuleProxy implements InvocationHandler {
 
+    /**
+     * 被代理的目标对象
+     */
     private final Object target;
     private String name;
     private String description;
@@ -75,14 +78,55 @@ public class RuleProxy implements InvocationHandler {
      */
     public static Rule asRule(final Object rule) {
         Rule result;
+        /*
+         * 这里可以看出定义的规则都是实现Rule接口去写，不用走代理代码，可以很大的提高运行性能
+         */
         if (rule instanceof Rule) {
+            // 如果是Rule类型，直接Rule返回
             result = (Rule) rule;
         } else {
+            // 不是Rule类型（要校验是否使用了对应的注解）
             ruleDefinitionValidator.validateRuleDefinition(rule);
-            result = (Rule) Proxy.newProxyInstance(
-                    Rule.class.getClassLoader(),
-                    new Class[]{Rule.class, Comparable.class},
-                    new RuleProxy(rule));
+
+            // 上面校验通过后，使用Rule类型对其进行代理
+
+            /**
+             *<pre class="code">
+             *    //新汽车
+             *    Car proxyCar = (Car)Proxy.newProxyInstance(
+             *        TestDemo.class.getClassLoader(),
+             *        car.getClass().getInterfaces(),
+             *       new InvocationHandler() {
+             *           @Override
+             *           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+             *               //增强代码
+             *               if("jump".equals(method.getName())){
+             *                   System.out.println("开始增强--飞");
+             *                   method.invoke(car,args); //对方法进行增强后,放行原来的方法
+             *                   return null;//在此处 return 表示后续的代码将不再运行 直接返回
+             *               }
+             *               //放行原来放法
+             *               method.invoke( car , args);//参数1:实例对象   参数2: 真实的参数
+             *               return null;
+             *           }
+             *        }
+             *    );
+             *
+             *    proxyCar.run();
+             *    proxyCar.jump();
+             *    proxyCar.stop();
+             *</pre>
+             */
+
+
+            /*
+             * 学习：InvocationHandler-每个代理实例都有一个关联的调用处理程序。 当在代理实例上调用方法时，方法调用将被编码并分派到其调用处理程序的invoke方法。
+             *
+             * Rule.class.getClassLoader()：代理类的类加载类
+             *  new Class[]{Rule.class, Comparable.class}: 要创建的代理类的类型 + 及其实现的接口列表
+             *  new RuleProxy(rule)：调用处理器对象：会默认调用invoke方法，将方法调用分派到的调用处理程序
+             */
+            result = (Rule) Proxy.newProxyInstance(Rule.class.getClassLoader(), new Class[]{Rule.class, Comparable.class}, new RuleProxy(rule));
         }
         return result;
     }
@@ -91,21 +135,30 @@ public class RuleProxy implements InvocationHandler {
         this.target = target;
     }
 
+    /**
+     * 覆写了InvocationHandler的invoke方法，会默认调用到这个方法里来
+     */
     @Override
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
         String methodName = method.getName();
+        // 给代理对象Rule设置规则内容（将被代理对象（没有实现Rule的规则对象才会有这些操作）的规则描述填充到代理对象中）
         switch (methodName) {
             case "getName":
+                // 获取规则的名称
                 return getRuleName();
             case "getDescription":
+                // 获取规则的描述"when（相当于condition） then（相当于action）"
                 return getRuleDescription();
             case "getPriority":
                 return getRulePriority();
             case "compareTo":
                 return compareToMethod(args);
             case "evaluate":
+
+                // 执行evaluate方法，evaluate()封装规则的条件（conditions）- 封装了必须求值为TRUE才能触发规则的条件
                 return evaluateMethod(args);
             case "execute":
+                // 执行execute方法，execute()执行匹配成功后的操作
                 return executeMethod(args);
             case "equals":
                 return equalsMethod(args);
@@ -122,7 +175,11 @@ public class RuleProxy implements InvocationHandler {
         Facts facts = (Facts) args[0];
         Method conditionMethod = getConditionMethod();
         try {
+
+            // 获取评估的数据
             List<Object> actualParameters = getActualParameters(conditionMethod, facts);
+
+            // 执行evaluate方法，condition中的数据进行评估
             return conditionMethod.invoke(target, actualParameters.toArray()); // validated upfront
         } catch (NoSuchFactException e) {
             LOGGER.warn("Rule '{}' has been evaluated to false due to a declared but missing fact '{}' in {}",
@@ -159,6 +216,9 @@ public class RuleProxy implements InvocationHandler {
         }
     }
 
+    /**
+     * 获取评估的数据
+     */
     private List<Object> getActualParameters(Method method, Facts facts) {
         List<Object> actualParameters = new ArrayList<>();
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();

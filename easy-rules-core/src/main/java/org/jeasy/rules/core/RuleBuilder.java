@@ -31,6 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 定义规则的两种方式 之 一：以编程方式定义， 通过RuleBuilder API定义；
+ * 另一种方式是：通过在POJO上添加注释，以声明方式定义
+ *
+ *
  * Builder to create {@link Rule} instances.
  *
  * @author Mahmoud Ben Hassine (mahmoud.benhassine@icloud.com)

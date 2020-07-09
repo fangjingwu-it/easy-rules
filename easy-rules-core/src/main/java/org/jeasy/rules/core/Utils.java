@@ -29,9 +29,14 @@ final class Utils {
 
     private Utils() { }
 
+    /**
+     * 就是为获取给定类型的注解
+     */
     static <A extends Annotation> A findAnnotation(final Class<A> targetAnnotation, final Class<?> annotatedType) {
+        // 获取给定类型的注解
         A foundAnnotation = annotatedType.getAnnotation(targetAnnotation);
         if (foundAnnotation == null) {
+            // 如果没有给定类型的注解，获取其上其他类型的注解
             for (Annotation annotation : annotatedType.getAnnotations()) {
                 Class<? extends Annotation> annotationType = annotation.annotationType();
                 if (annotationType.isAnnotationPresent(targetAnnotation)) {

@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 默认的规则引擎实现：根据规则的自然顺序（默认为优先级）应用规则
  * Default {@link RulesEngine} implementation.
  *
  * Rules are fired according to their natural order which is priority by default.

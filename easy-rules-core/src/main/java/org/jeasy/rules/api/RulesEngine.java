@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * （定义）规则引擎的抽象接口: 负责检查和开启规则，同时可以得到规则引擎的参数和规则监听器列表
  * Rules engine interface.
  *
  * @author Mahmoud Ben Hassine (mahmoud.benhassine@icloud.com)
@@ -35,6 +36,7 @@ import java.util.Map;
 public interface RulesEngine {
 
     /**
+     * 获取规则引擎的参数
      * Return the rules engine parameters.
      *
      * @return The rules engine parameters
@@ -42,6 +44,7 @@ public interface RulesEngine {
     RulesEngineParameters getParameters();
 
     /**
+     * 返回已注册的规则监听器的列表
      * Return the list of registered rule listeners.
      *
      * @return the list of registered rule listeners
@@ -51,6 +54,7 @@ public interface RulesEngine {
     }
 
     /**
+     *
      * Return the list of registered rules engine listeners.
      *
      * @return the list of registered rules engine listeners
@@ -60,6 +64,7 @@ public interface RulesEngine {
     }
 
     /**
+     * 在给定的因素上开启所有已注册的规则
      * Fire all registered rules on given facts.
      */
     void fire(Rules rules, Facts facts);

@@ -39,6 +39,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
+ * 持续对已知事实应用规则，直到不再应用规则为止
+ *
  * Inference {@link RulesEngine} implementation.
  *
  * Rules are selected based on given facts and fired according to their natural

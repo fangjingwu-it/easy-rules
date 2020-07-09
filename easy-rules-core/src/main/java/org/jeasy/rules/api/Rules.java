@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
+ * 用于封装一组规则（规则引擎执行的对象就是他）
  * This class encapsulates a set of rules and represents a rules namespace.
  * Rules must have a unique name within a rules namespace.
  *

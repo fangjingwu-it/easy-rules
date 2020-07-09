@@ -25,6 +25,7 @@ package org.jeasy.rules.api;
 
 /**
  * Abstraction for a rule that can be fired by a rules engine.
+ * （用于描述规则）规则的描述接口 + 对规则的操作
  *
  * Rules are registered in a namespace of rule of type {@link Rules}
  * in which they must have a <strong>unique</strong> name.
@@ -73,14 +74,17 @@ public interface Rule extends Comparable<Rule> {
     }
 
     /**
+     * 规则引擎判断条件: 如果提供的facts被应用到规则上返回true，否则返回false
      * This method implements the rule's condition(s).
      * <strong>Implementations should handle any runtime exception and return true/false accordingly</strong>
      *
      * @return true if the rule should be applied given the provided facts, false otherwise
+     *         如果提供的事实适用于该规则返回true, 否则，返回false
      */
     boolean evaluate(Facts facts);
 
     /**
+     * 规则引擎判断条件返回true后，执行此方法
      * This method implements the rule's action(s).
      * @throws Exception thrown if an exception occurs when performing action(s)
      */

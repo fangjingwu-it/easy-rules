@@ -31,6 +31,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * 具体的事实（即封装校验数据的对象）的集合：Facts的用法很像Map，它是客户端和规则文件之间通信的桥梁
  * This class encapsulates a set of facts and represents a facts namespace.
  * Facts have unique names within a <code>Facts</code> object.
  *

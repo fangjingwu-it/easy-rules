@@ -24,6 +24,7 @@
 package org.jeasy.rules.api;
 
 /**
+ * 监听规则执行的监听器：RuleListener在规则执行的4个阶段加上了触发器，可以灵活地控制规则执行结果
  * A listener for rule execution events.
  *
  * @author Mahmoud Ben Hassine (mahmoud.benhassine@icloud.com)
@@ -31,6 +32,7 @@ package org.jeasy.rules.api;
 public interface RuleListener {
 
     /**
+     * 规则条件判断之前的触发器
      * Triggered before the evaluation of a rule.
      *
      * @param rule being evaluated
@@ -42,6 +44,7 @@ public interface RuleListener {
     }
 
     /**
+     * 规则条件判断之后的触发器
      * Triggered after the evaluation of a rule.
      *
      * @param rule that has been evaluated
@@ -60,6 +63,7 @@ public interface RuleListener {
     default void onEvaluationError(Rule rule, Facts facts, Exception exception) { }
 
     /**
+     * 规则执行之前的触发器
      * Triggered before the execution of a rule.
      *
      * @param rule the current rule
@@ -68,6 +72,7 @@ public interface RuleListener {
     default void beforeExecute(Rule rule, Facts facts) { }
 
     /**
+     * 规则执行成功之后的触发器
      * Triggered after a rule has been executed successfully.
      *
      * @param rule the current rule
@@ -76,6 +81,7 @@ public interface RuleListener {
     default void onSuccess(Rule rule, Facts facts) { }
 
     /**
+     * 规则执行失败之后的触发器
      * Triggered after a rule has failed.
      *
      * @param rule the current rule

@@ -24,6 +24,7 @@
 package org.jeasy.rules.api;
 
 /**
+ * 执行的操作接口
  * This interface represents a rule's action.
  *
  * @author Mahmoud Ben Hassine (mahmoud.benhassine@icloud.com)

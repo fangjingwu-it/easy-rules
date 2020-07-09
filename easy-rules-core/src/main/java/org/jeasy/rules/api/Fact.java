@@ -26,6 +26,7 @@ package org.jeasy.rules.api;
 import java.util.Objects;
 
 /**
+ * 一个具体的事实（即封装校验数据的对象）
  * A class representing a named fact. Facts have unique names within a {@link Facts}
  * instance.
  * 

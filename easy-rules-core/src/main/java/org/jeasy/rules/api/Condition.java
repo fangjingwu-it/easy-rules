@@ -24,6 +24,7 @@
 package org.jeasy.rules.api;
 
 /**
+ * 规则设定的条件接口
  * This interface represents a rule's condition.
  *
  * @author Mahmoud Ben Hassine (mahmoud.benhassine@icloud.com)

@@ -39,6 +39,7 @@ import org.jeasy.rules.annotation.Rule;
 import org.jeasy.rules.api.Facts;
 
 /**
+ * 验证定义的Rule是否有效
  * This component validates that an annotated rule object is well defined.
  *
  * @author Mahmoud Ben Hassine (mahmoud.benhassine@icloud.com)
@@ -46,9 +47,13 @@ import org.jeasy.rules.api.Facts;
 class RuleDefinitionValidator {
 
     void validateRuleDefinition(final Object rule) {
+        // 判断类上是否有@Rule注解
         checkRuleClass(rule);
+        // 判断方法上是否有@Condition注解
         checkConditionMethod(rule);
+        // 判断方法上是否有@Action注解
         checkActionMethods(rule);
+        // 判断方法上是否有Priority注解
         checkPriorityMethod(rule);
     }
 
@@ -107,6 +112,7 @@ class RuleDefinitionValidator {
         }
     }
 
+    // 判断该类是否有@Rule注解
     private boolean isRuleClassWellDefined(final Object rule) {
         return Utils.isAnnotationPresent(Rule.class, rule.getClass());
     }

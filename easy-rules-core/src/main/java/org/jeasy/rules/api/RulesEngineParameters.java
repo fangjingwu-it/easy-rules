@@ -27,6 +27,7 @@ import org.jeasy.rules.core.DefaultRulesEngine;
 import org.jeasy.rules.core.InferenceRulesEngine;
 
 /**
+ * 设置规则引擎执行时的一些机制（可以理解成设置 要创建的规则引擎的属性）
  * Parameters of a rules engine.
  *
  * <ul>
@@ -45,21 +46,27 @@ public class RulesEngineParameters {
     
     /**
      * Parameter to skip next applicable rules when a rule is applied.
+     * 在执行RuleClass中的规则时，只要有一个规则被触发，则当前被传进来的Fact就不再判断是否满足规则链上的其他规则的条件（自然也不会执行其对应的操作）
      */
     private boolean skipOnFirstAppliedRule;
 
     /**
      * Parameter to skip next applicable rules when a rule is non triggered
+     * 客户端中每一个被 put 到 Facts 中的 number 都会对 .yml 文件中定义的所有规则按照优先级从高到低的顺序进行判断，如果满足当前的规则，
+     * 则执行相应的操作，直到遇到不满足条件的规则为止，并且也不会对其他规则进行判断了
+     *
      */
     private boolean skipOnFirstNonTriggeredRule;
 
     /**
      * Parameter to skip next applicable rules when a rule has failed.
+     * 告诉引擎在规则失败时跳过后面的规则
      */
     private boolean skipOnFirstFailedRule;
 
     /**
      * Parameter to skip next rules if priority exceeds a user defined threshold.
+     * 告诉引擎如果优先级超过定义的阈值，则大于这个阈值的优先级的规则都不会执行。版本3.3已经不支持更改，默认MaxInt
      */
     private int priorityThreshold;
 

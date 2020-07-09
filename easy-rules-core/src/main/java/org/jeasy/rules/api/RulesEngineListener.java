@@ -26,6 +26,7 @@ package org.jeasy.rules.api;
 import org.jeasy.rules.core.InferenceRulesEngine;
 
 /**
+ * 监听规则引擎执行的监听器
  * A listener for rules engine execution events.
  *
  * @author Mahmoud Ben Hassine (mahmoud.benhassine@icloud.com)
